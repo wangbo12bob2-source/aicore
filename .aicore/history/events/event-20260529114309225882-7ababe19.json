@@ -1,0 +1,50 @@
+{
+  "event_id": "event-20260529114309225882-7ababe19",
+  "task_id": "task-2026-05-29-claude-wrapper-mvp",
+  "session_id": "codex-2026-05-29",
+  "timestamp": "2026-05-29T11:43:09.225882+00:00",
+  "kind": "file_write",
+  "files": [
+    {
+      "path": "CLAUDE.md",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260529114309225882-7ababe19/CLAUDE.md"
+    },
+    {
+      "path": "README.md",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260529114309225882-7ababe19/README.md"
+    },
+    {
+      "path": "tests/test_claude_wrapper_files.py",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260529114309225882-7ababe19/tests/test_claude_wrapper_files.py"
+    },
+    {
+      "path": ".claude/commands/aicore-save.md",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260529114309225882-7ababe19/.claude/commands/aicore-save.md"
+    },
+    {
+      "path": ".claude/commands/aicore-ledger.md",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260529114309225882-7ababe19/.claude/commands/aicore-ledger.md"
+    },
+    {
+      "path": ".claude/agents/aicore-guard.md",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260529114309225882-7ababe19/.claude/agents/aicore-guard.md"
+    },
+    {
+      "path": ".claude/settings.json",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260529114309225882-7ababe19/.claude/settings.json"
+    },
+    {
+      "path": ".claude/hooks/aicore_save_reminder.py",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260529114309225882-7ababe19/.claude/hooks/aicore_save_reminder.py"
+    }
+  ],
+  "summary": "新增 Claude Code 主动保存提醒 hook、aicore-save 命令和 plan-driven ledger 约束"
+}

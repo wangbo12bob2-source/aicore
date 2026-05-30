@@ -1,0 +1,9 @@
+{
+  "checkpoint_id": "checkpoint-20260529114318326547-99c82eb9",
+  "task_id": "task-2026-05-29-claude-wrapper-mvp",
+  "timestamp": "2026-05-29T11:43:18.326547+00:00",
+  "event_ids": [
+    "event-20260529114309225882-7ababe19"
+  ],
+  "summary": "主动保存流程通过测试并达到稳定点"
+}

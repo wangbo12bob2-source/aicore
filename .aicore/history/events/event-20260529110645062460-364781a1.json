@@ -1,0 +1,50 @@
+{
+  "event_id": "event-20260529110645062460-364781a1",
+  "task_id": "task-2026-05-29-claude-wrapper-mvp",
+  "session_id": "codex-2026-05-29",
+  "timestamp": "2026-05-29T11:06:45.062460+00:00",
+  "kind": "file_write",
+  "files": [
+    {
+      "path": "CLAUDE.md",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260529110645062460-364781a1/CLAUDE.md"
+    },
+    {
+      "path": ".claude/commands/aicore-start.md",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260529110645062460-364781a1/.claude/commands/aicore-start.md"
+    },
+    {
+      "path": ".claude/commands/aicore-log-write.md",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260529110645062460-364781a1/.claude/commands/aicore-log-write.md"
+    },
+    {
+      "path": ".claude/commands/aicore-checkpoint.md",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260529110645062460-364781a1/.claude/commands/aicore-checkpoint.md"
+    },
+    {
+      "path": ".claude/commands/aicore-ledger.md",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260529110645062460-364781a1/.claude/commands/aicore-ledger.md"
+    },
+    {
+      "path": ".claude/agents/aicore-guard.md",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260529110645062460-364781a1/.claude/agents/aicore-guard.md"
+    },
+    {
+      "path": "README.md",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260529110645062460-364781a1/README.md"
+    },
+    {
+      "path": "tests/test_claude_wrapper_files.py",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260529110645062460-364781a1/tests/test_claude_wrapper_files.py"
+    }
+  ],
+  "summary": "完成 Claude Code aicore 包装层 MVP 文件与测试"
+}

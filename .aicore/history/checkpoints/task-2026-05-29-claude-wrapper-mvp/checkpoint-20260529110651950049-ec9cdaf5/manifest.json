@@ -1,0 +1,9 @@
+{
+  "checkpoint_id": "checkpoint-20260529110651950049-ec9cdaf5",
+  "task_id": "task-2026-05-29-claude-wrapper-mvp",
+  "timestamp": "2026-05-29T11:06:51.950049+00:00",
+  "event_ids": [
+    "event-20260529110645062460-364781a1"
+  ],
+  "summary": "Claude Code 包装层 MVP 通过测试并达到可恢复稳定点"
+}
