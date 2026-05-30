@@ -1,0 +1,35 @@
+{
+  "event_id": "event-20260530063206193109-e421b4aa",
+  "task_id": "task-2026-05-29-claude-wrapper-mvp",
+  "session_id": "codex-2026-05-30",
+  "timestamp": "2026-05-30T06:32:06.193109+00:00",
+  "kind": "file_write",
+  "files": [
+    {
+      "path": "src/aicore/status_service.py",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260530063206193109-e421b4aa/src/aicore/status_service.py"
+    },
+    {
+      "path": "src/aicore/cli.py",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260530063206193109-e421b4aa/src/aicore/cli.py"
+    },
+    {
+      "path": "tests/test_status_command.py",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260530063206193109-e421b4aa/tests/test_status_command.py"
+    },
+    {
+      "path": "tests/test_cli_smoke.py",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260530063206193109-e421b4aa/tests/test_cli_smoke.py"
+    },
+    {
+      "path": "README.md",
+      "change_type": "modified",
+      "snapshot_path": ".aicore/history/snapshots/task-2026-05-29-claude-wrapper-mvp/event-20260530063206193109-e421b4aa/README.md"
+    }
+  ],
+  "summary": "新增多工具协作 status 视图，报告 sessions、未 checkpoint events 和多 session 文件风险"
+}

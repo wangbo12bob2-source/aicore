@@ -1,0 +1,9 @@
+{
+  "checkpoint_id": "checkpoint-20260530063222948549-23bb2a80",
+  "task_id": "task-2026-05-29-claude-wrapper-mvp",
+  "timestamp": "2026-05-30T06:32:22.948549+00:00",
+  "event_ids": [
+    "event-20260530063206193109-e421b4aa"
+  ],
+  "summary": "aicore status 多工具协作视图通过测试并达到稳定点"
+}
