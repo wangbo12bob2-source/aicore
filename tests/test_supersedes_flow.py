@@ -42,6 +42,35 @@ def _task_root_entries(workspace: Path) -> set[str]:
     return {path.name for path in tasks_root.iterdir()}
 
 
+def _fill_review_ready_fields(task_id: str) -> int:
+    return main(
+        [
+            "update",
+            task_id,
+            "--main-entrypoint",
+            "API: POST /auth/login",
+            "--allowed-file",
+            "src/auth/login.ts",
+            "--baseline-ref",
+            "tests/test_auth.py",
+            "--success-criteria",
+            "登录成功路径通过",
+            "--assumption",
+            "当前只有单 API 入口",
+            "--risk",
+            "异常路径回归尚未补齐",
+            "--review-summary",
+            "主入口、修改范围、验收依据已确认",
+            "--rollback-plan",
+            "回滚到上一版登录逻辑",
+            "--dual-write-required",
+            "false",
+            "--dual-write-reason",
+            "当前仅改 API 主入口。",
+        ]
+    )
+
+
 def test_approve_superseding_task_marks_old_task_as_superseded(
     workspace: Path, monkeypatch
 ):
@@ -52,6 +81,7 @@ def test_approve_superseding_task_marks_old_task_as_superseded(
     old_task_id = "task-2026-05-24-001"
 
     _set_fixed_time(2026, 5, 24, 10)
+    assert _fill_review_ready_fields(old_task_id) == 0
     assert main(["approve", old_task_id, "--by", "alice"]) == 0
 
     _set_fixed_time(2026, 5, 25, 9)
@@ -70,6 +100,7 @@ def test_approve_superseding_task_marks_old_task_as_superseded(
 
     _set_fixed_time(2026, 5, 25, 10)
     assert main(["review", new_task_id]) == 0
+    assert _fill_review_ready_fields(new_task_id) == 0
 
     _set_fixed_time(2026, 5, 25, 11)
     approve_exit = main(["approve", new_task_id, "--by", "bob"])
@@ -114,6 +145,7 @@ def test_approve_superseding_task_allows_old_draft_to_be_superseded(
     new_task_id = "task-2026-05-25-001"
 
     _set_fixed_time(2026, 5, 25, 10)
+    assert _fill_review_ready_fields(new_task_id) == 0
     approve_exit = main(["approve", new_task_id, "--by", "bob"])
 
     new_task = _read_task(workspace, new_task_id)
@@ -190,6 +222,7 @@ def test_approve_superseding_task_rolls_back_if_second_write_fails(
     old_task_id = "task-2026-05-24-001"
 
     _set_fixed_time(2026, 5, 24, 10)
+    assert _fill_review_ready_fields(old_task_id) == 0
     assert main(["approve", old_task_id, "--by", "alice"]) == 0
 
     _set_fixed_time(2026, 5, 25, 9)
@@ -205,6 +238,9 @@ def test_approve_superseding_task_rolls_back_if_second_write_fails(
         == 0
     )
     new_task_id = "task-2026-05-25-001"
+
+    _set_fixed_time(2026, 5, 25, 9)
+    assert _fill_review_ready_fields(new_task_id) == 0
 
     before_old = _read_task(workspace, old_task_id)
     before_new = _read_task(workspace, new_task_id)

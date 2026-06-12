@@ -13,6 +13,7 @@ from aicore.task_store import (
     overwrite_tasks,
     save_task,
 )
+from aicore.task_update_service import validate_task_for_approval
 
 
 def _resolve_current_time(now: datetime | None) -> datetime:
@@ -67,6 +68,8 @@ def approve_task(
 ) -> dict:
     current_time = _resolve_current_time(now)
     task = load_task(cwd, task_id)
+    transition(task, "approved")
+    validate_task_for_approval(task_id, cwd)
     superseded_task: dict | None = None
     rollback_tasks: list[dict] = []
     tasks_to_write: list[dict] = []
@@ -81,7 +84,6 @@ def approve_task(
         tasks_to_write.append(superseded_task)
 
     rollback_tasks.append(deepcopy(task))
-    transition(task, "approved")
     task["review"]["approved_by"] = approved_by
     task["review"]["approved_at"] = current_time.isoformat()
     task["review"]["rejected_reason"] = None

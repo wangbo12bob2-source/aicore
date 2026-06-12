@@ -44,6 +44,16 @@ def test_claude_commands_cover_the_four_aicore_entrypoints():
         assert "不要" in text
 
 
+def test_aicore_contract_command_points_to_vibe_contract():
+    text = (PROJECT_ROOT / ".claude" / "commands" / "aicore-contract.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "docs/contracts/vibe-coding-contract.md" in text
+    assert "python3.11 -m aicore.cli update" in text
+    assert "不要" in text
+
+
 def test_aicore_guard_agent_is_supervisory_not_autonomous():
     text = (PROJECT_ROOT / ".claude" / "agents" / "aicore-guard.md").read_text(
         encoding="utf-8"
@@ -140,3 +150,12 @@ def test_readme_mentions_claude_code_wrapper_entrypoints():
     assert "/aicore-checkpoint" in text
     assert "/aicore-ledger" in text
     assert "PostToolUse" in text
+    assert "vibe-coding-contract.md" in text
+
+
+def test_claude_rules_reference_vibe_coding_contract():
+    text = (PROJECT_ROOT / "CLAUDE.md").read_text(encoding="utf-8")
+
+    assert "vibe-coding-contract.md" in text
+    assert "不替代安全与架构专项审查" in text
+    assert "任务级架构审核" in text

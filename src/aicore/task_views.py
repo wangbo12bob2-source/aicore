@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 
 def _render_dual_write_required(task: dict) -> str:
     return "是" if task["implementation"]["dual_write_required"] else "否"
@@ -23,6 +25,31 @@ def render_terminal_summary(task: dict) -> str:
     lines = [
         f"项目类型: {task['project']['type']}",
         *render_confirm_lines(task),
+    ]
+    return "\n".join(lines)
+
+
+def render_task_list(tasks: list[dict]) -> str:
+    if not tasks:
+        return "暂无任务"
+
+    lines = []
+    for task in tasks:
+        lines.append(
+            f"- {task['id']} | 状态: {task['status']} | 模块: {task['scope']['module']} | 需求: {task['request']['raw']}"
+        )
+    return "\n".join(lines)
+
+
+def render_task_detail(task: dict) -> str:
+    lines = [
+        task["id"],
+        f"状态: {task['status']}",
+        render_terminal_summary(task),
+        f"原始需求: {task['request']['raw']}",
+        f"模块范围: {task['scope']['module']}",
+        f"任务目录: {Path('.aicore') / 'tasks' / task['id']}",
+        f"简报文件: {Path('.aicore') / 'tasks' / task['id'] / 'brief.md'}",
     ]
     return "\n".join(lines)
 

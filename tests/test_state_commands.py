@@ -35,6 +35,35 @@ def _fixed_now_isoformat() -> str:
     return _FixedDateTime.value.isoformat()
 
 
+def _fill_review_ready_fields(task_id: str) -> int:
+    return main(
+        [
+            "update",
+            task_id,
+            "--main-entrypoint",
+            "API: POST /auth/login",
+            "--allowed-file",
+            "src/auth/login.ts",
+            "--baseline-ref",
+            "tests/test_auth.py",
+            "--success-criteria",
+            "登录成功路径通过",
+            "--assumption",
+            "当前只有单 API 入口",
+            "--risk",
+            "异常路径回归尚未补齐",
+            "--review-summary",
+            "主入口、修改范围、验收依据已确认",
+            "--rollback-plan",
+            "回滚到上一版登录逻辑",
+            "--dual-write-required",
+            "false",
+            "--dual-write-reason",
+            "当前仅改 API 主入口。",
+        ]
+    )
+
+
 def test_review_moves_draft_to_reviewing_and_rerenders_brief(
     workspace: Path, monkeypatch, capsys
 ):
@@ -96,6 +125,7 @@ def test_approve_allows_draft_and_reviewing_and_records_reviewer_metadata(
     assert start_exit == 0
 
     task_id = "task-2026-05-25-001"
+    assert _fill_review_ready_fields(task_id) == 0
 
     exit_code = main(["approve", task_id, "--by", "alice"])
 
@@ -116,6 +146,7 @@ def test_approve_allows_draft_and_reviewing_and_records_reviewer_metadata(
     reviewing_task_id = "task-2026-05-25-002"
     review_exit = main(["review", reviewing_task_id])
     assert review_exit == 0
+    assert _fill_review_ready_fields(reviewing_task_id) == 0
 
     reviewing_approve_exit = main(["approve", reviewing_task_id, "--by", "bob"])
 
@@ -172,6 +203,7 @@ def test_rejected_task_cannot_be_approved_and_returns_two(
     assert start_exit == 0
 
     task_id = "task-2026-05-25-001"
+    assert _fill_review_ready_fields(task_id) == 0
     reject_exit = main(["reject", task_id, "--reason", "需求范围不清"])
     assert reject_exit == 0
 
@@ -193,6 +225,7 @@ def test_illegal_state_transition_fails_explicitly(
     assert start_exit == 0
 
     task_id = "task-2026-05-25-001"
+    assert _fill_review_ready_fields(task_id) == 0
     approve_exit = main(["approve", task_id, "--by", "alice"])
     assert approve_exit == 0
 

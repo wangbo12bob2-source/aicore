@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from aicore.history_store import load_event_record
+
 
 _LEDGER_PATH = Path(".aicore") / "system-ledger.md"
 _SECTION_TITLES = [
@@ -56,6 +58,20 @@ def _initial_ledger_text() -> str:
     return _render_sections({title: [] for title in _SECTION_TITLES})
 
 
+def _validate_event_reference(cwd: Path, task_id: str, event_ref: str) -> str:
+    normalized_event_ref = _validate_single_line(event_ref, "event_ref")
+    try:
+        event = load_event_record(cwd, normalized_event_ref)
+    except FileNotFoundError as exc:
+        raise ValueError(f"event 不存在: {normalized_event_ref}") from exc
+
+    if event["task_id"] != task_id:
+        raise ValueError(
+            f"event {normalized_event_ref} 属于 {event['task_id']}，不能用于 {task_id}"
+        )
+    return normalized_event_ref
+
+
 def confirm_ledger_entry(
     cwd: Path,
     task_id: str,
@@ -69,6 +85,7 @@ def confirm_ledger_entry(
     ledger_path = cwd / _LEDGER_PATH
     ledger_path.parent.mkdir(parents=True, exist_ok=True)
 
+    normalized_event_ref = _validate_event_reference(cwd, task_id, event_ref)
     capability_text = _validate_single_line(capability, "capability")
     entrypoint_text = _validate_single_line(entrypoint, "entrypoint")
     limit_text = _validate_single_line(limit, "limit")
@@ -80,7 +97,7 @@ def confirm_ledger_entry(
         if ledger_path.exists()
         else _initial_ledger_text()
     )
-    source = f"来源: {task_id} / {event_ref}"
+    source = f"来源: {task_id} / {normalized_event_ref}"
     sections = _parse_sections(ledger_text)
     sections["## Current Capabilities"].append(f"- {capability_text} ({source})")
     sections["## Entrypoints"].append(f"- {entrypoint_text} ({source})")

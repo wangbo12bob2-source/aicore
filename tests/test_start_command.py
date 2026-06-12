@@ -85,6 +85,30 @@ def test_start_records_supersedes_reference(workspace: Path):
     assert data["history"]["supersedes"] == "task-2026-05-24-001"
 
 
+def test_start_accepts_natural_aicore_workflow_request(workspace: Path):
+    exit_code = main(["start", "完善当前 Aicore 项目，使任务草案、审批、留痕流程可用于本次开发"])
+
+    task_dirs = _task_dirs(workspace)
+
+    assert exit_code == 0
+    assert len(task_dirs) == 1
+
+    data = yaml.safe_load((task_dirs[0] / "task.yaml").read_text(encoding="utf-8"))
+    assert data["scope"]["module"] == "task-governance"
+
+
+def test_start_prefers_task_governance_when_request_is_about_aicore_flow(workspace: Path):
+    exit_code = main(["start", "完善 JWT 登录任务的草案补全与审批校验流程"])
+
+    task_dirs = _task_dirs(workspace)
+
+    assert exit_code == 0
+    assert len(task_dirs) == 1
+
+    data = yaml.safe_load((task_dirs[0] / "task.yaml").read_text(encoding="utf-8"))
+    assert data["scope"]["module"] == "task-governance"
+
+
 def test_start_rejects_request_without_stable_single_module(workspace: Path):
     exit_code = main(["start", "优化一下现有实现"])
 

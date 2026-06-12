@@ -15,6 +15,12 @@ dev = ["pytest>=8.0"]
 
 [project.scripts]
 aicore = "aicore.cli:main"
+astart = "aicore.cli:shortcut_start"
+alist = "aicore.cli:shortcut_list"
+ashow = "aicore.cli:shortcut_show"
+acheck = "aicore.cli:shortcut_checklist"
+aupdate = "aicore.cli:shortcut_update"
+aapprove = "aicore.cli:shortcut_approve"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

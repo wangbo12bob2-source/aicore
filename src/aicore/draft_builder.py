@@ -23,6 +23,49 @@ MULTI_ENTRYPOINT_RISK_KEYWORDS = (
     "嵌入式 html",
 )
 
+MODULE_KEYWORD_SCORES = {
+    "task-governance": (
+        ("aicore", 4),
+        ("task.yaml", 4),
+        ("brief.md", 4),
+        ("checkpoint", 3),
+        ("ledger", 3),
+        ("log-write", 3),
+        ("approve", 3),
+        ("review", 3),
+        ("reject", 3),
+        ("update", 3),
+        ("账本", 3),
+        ("留痕", 3),
+        ("审批", 3),
+        ("草案", 3),
+        ("补全", 3),
+        ("校验", 3),
+        ("任务边界", 3),
+        ("验收依据", 3),
+        ("entrypoints", 3),
+        ("allowed_files", 3),
+        ("cli", 2),
+        ("命令", 2),
+        ("流程", 1),
+    ),
+    "auth-login": (
+        ("jwt", 4),
+        ("登录", 3),
+        ("auth", 3),
+        ("login", 3),
+        ("refresh token", 2),
+        ("token", 1),
+    ),
+    "payment": (
+        ("支付", 4),
+        ("payment", 4),
+        ("billing", 3),
+        ("checkout", 3),
+        ("invoice", 2),
+    ),
+}
+
 
 @dataclass(frozen=True)
 class DraftContext:
@@ -65,11 +108,31 @@ def infer_project_type(request: str) -> str:
 
 def infer_scope_module(request: str) -> str:
     lowered = request.lower()
-    if "jwt" in lowered or "登录" in request or "auth" in lowered:
-        return "auth-login"
-    if "支付" in request or "payment" in lowered:
-        return "payment"
-    raise ValueError("无法稳定判断该请求归属的单一逻辑模块，请先明确任务边界。")
+    module_scores: dict[str, int] = {}
+    for module_name, weighted_keywords in MODULE_KEYWORD_SCORES.items():
+        score = sum(weight for keyword, weight in weighted_keywords if keyword in lowered)
+        if score > 0:
+            module_scores[module_name] = score
+
+    if not module_scores:
+        raise ValueError("无法稳定判断该请求归属的单一逻辑模块，请先明确任务边界。")
+
+    best_module, best_score = max(
+        module_scores.items(),
+        key=lambda item: (item[1], item[0] == "task-governance"),
+    )
+    tied_modules = [
+        module_name
+        for module_name, score in module_scores.items()
+        if score == best_score and module_name != best_module
+    ]
+    if tied_modules:
+        raise ValueError("请求同时命中多个逻辑模块，当前无法稳定判断单一模块，请先明确任务边界。")
+
+    if best_score < 3:
+        raise ValueError("无法稳定判断该请求归属的单一逻辑模块，请先明确任务边界。")
+
+    return best_module
 
 
 def build_draft(context: DraftContext) -> dict:
